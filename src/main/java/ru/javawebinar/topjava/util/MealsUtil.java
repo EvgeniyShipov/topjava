@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +25,11 @@ public class MealsUtil {
         getWithExceeded(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
     }
 
-    public static List<MealWithExceed> getWithExceeded(List<Meal> mealList, int caloriesPerDay) {
+    public static List<MealWithExceed> getWithExceeded(Collection<Meal> mealList, int caloriesPerDay) {
         return getWithExceeded(mealList, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
-    public static List<MealWithExceed> getWithExceeded(List<Meal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    private static List<MealWithExceed> getWithExceeded(Collection<Meal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         return mealList.stream()
                 .collect(Collectors.groupingBy(meal -> meal.getDateTime().getDayOfYear())).values()
                 .stream().flatMap(list -> list.stream()
